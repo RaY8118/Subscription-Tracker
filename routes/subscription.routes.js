@@ -4,6 +4,8 @@ import { cancelSubscriptions, createSubscription, deleteSubscriptions, getAllSub
 
 const subscriptionRouter = Router();
 
+subscriptionRouter.get('/upcoming-renewals', authorize, getUpcomingRenewals);
+
 subscriptionRouter.get('/', authorize, getAllSubscriptions);
 subscriptionRouter.get('/:id', authorize, getSubscriptionsDetails);
 subscriptionRouter.post('/', authorize, createSubscription);
@@ -12,6 +14,5 @@ subscriptionRouter.delete('/:id', authorize, deleteSubscriptions);
 
 subscriptionRouter.get('/user/:id', authorize, getUserSubscriptions);
 subscriptionRouter.put('/:id/cancel', authorize, cancelSubscriptions);
-subscriptionRouter.get('/upcoming-renewals', authorize, getUpcomingRenewals);
 
 export default subscriptionRouter;

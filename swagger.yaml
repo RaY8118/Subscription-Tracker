@@ -1,0 +1,326 @@
+openapi: 3.0.0
+info:
+  title: Subscription Tracker
+  description: >-
+    This API allows users to manage and track their subscriptions easily. It
+    provides endpoints for creating, updating, deleting, and retrieving
+    subscription details, along with features to view upcoming renewals and
+    manage user-specific subscriptions. The API is built with Node.js and
+    Express.js and uses authentication middleware to ensure secure access. Each
+    endpoint supports clear parameters and request bodies, making it simple to
+    integrate and use for developers building subscription-based platforms or
+    personal finance tools.
+  version: 1.0.0
+servers:
+  - url: http://localhost:5500
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+tags:
+  - name: subscriptions
+  - name: users
+paths:
+  /api/v1/subscriptions:
+    post:
+      tags:
+        - subscriptions
+      summary: post subscriptions
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: JS Mastery Pro Elite Membership
+                price: 1500
+                currency: INR
+                frequency: monthly
+                category: entertainment
+                startDate: '2025-03-17T00:00:00Z'
+                paymentMethod: Credit Card
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: User-Agent
+          in: header
+          schema:
+            type: string
+          example: >-
+            Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML,
+            like Gecko) Chrome/58.0.3029.110 Safari/537.36
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    get:
+      tags:
+        - subscriptions
+      summary: get subscriptions
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: User-Agent
+          in: header
+          schema:
+            type: string
+          example: >-
+            Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML,
+            like Gecko) Chrome/58.0.3029.110 Safari/537.36
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/subscriptions/{id}/cancel:
+    put:
+      tags:
+        - subscriptions
+      summary: cancel subscriptions
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example: ''
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: User-Agent
+          in: header
+          schema:
+            type: string
+          example: >-
+            Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML,
+            like Gecko) Chrome/58.0.3029.110 Safari/537.36
+        - name: id
+          in: path
+          schema:
+            type: string
+          required: true
+          description: The subscription ID to cancel
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/subscriptions/{id}:
+    put:
+      tags:
+        - subscriptions
+      summary: update subscriptions
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                price: 2000
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: User-Agent
+          in: header
+          schema:
+            type: string
+          example: >-
+            Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML,
+            like Gecko) Chrome/58.0.3029.110 Safari/537.36
+        - name: id
+          in: path
+          schema:
+            type: string
+          required: true
+          description: The subscription ID to update
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    delete:
+      tags:
+        - subscriptions
+      summary: delete subscriptions
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: User-Agent
+          in: header
+          schema:
+            type: string
+          example: >-
+            Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML,
+            like Gecko) Chrome/58.0.3029.110 Safari/537.36
+        - name: id
+          in: path
+          schema:
+            type: string
+          required: true
+          description: The subscription ID to delete
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    get:
+      tags:
+        - subscriptions
+      summary: get subscription details
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: User-Agent
+          in: header
+          schema:
+            type: string
+          example: >-
+            Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML,
+            like Gecko) Chrome/58.0.3029.110 Safari/537.36
+        - name: id
+          in: path
+          schema:
+            type: string
+          required: true
+          description: The subscription ID to fetch details for
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/subscriptions/upcoming-renewals:
+    get:
+      tags:
+        - subscriptions
+      summary: upcoming renewals
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: User-Agent
+          in: header
+          schema:
+            type: string
+          example: >-
+            Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML,
+            like Gecko) Chrome/58.0.3029.110 Safari/537.36
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/subscriptions/user/{id}:
+    get:
+      tags:
+        - subscriptions
+      summary: get user subscriptions
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: User-Agent
+          in: header
+          schema:
+            type: string
+          example: >-
+            Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML,
+            like Gecko) Chrome/58.0.3029.110 Safari/537.36
+        - name: id
+          in: path
+          schema:
+            type: string
+          required: true
+          description: The user ID to fetch
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/auth/sign-up:
+    post:
+      tags:
+        - users
+      summary: create user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: Oshan Gharat
+                email: oshangharat@gmail.com
+                password: '123123'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/auth/sign-in:
+    post:
+      tags:
+        - users
+      summary: sign in user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                email: parthghadi43@gmail.com
+                password: '123123'
+      parameters:
+        - name: User-Agent
+          in: header
+          schema:
+            type: string
+          example: >-
+            Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML,
+            like Gecko) Chrome/58.0.3029.110 Safari/537.36s
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/users:
+    get:
+      tags:
+        - users
+      summary: get all users
+      parameters:
+        - name: User-Agent
+          in: header
+          schema:
+            type: string
+          example: >-
+            Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML,
+            like Gecko) Chrome/58.0.3029.110 Safari/537.36
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/users/{id}:
+    get:
+      tags:
+        - users
+      summary: get current user
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: User-Agent
+          in: header
+          schema:
+            type: string
+          example: >-
+            Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML,
+            like Gecko) Chrome/58.0.3029.110 Safari/537.36
+        - name: id
+          in: path
+          schema:
+            type: string
+          required: true
+          description: The user ID to fetch details
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
