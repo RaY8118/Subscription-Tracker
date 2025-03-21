@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import { SERVER_URL } from "../config/env.js";
+import { NODE_ENV, SERVER_URL } from "../config/env.js";
 import { workflowClient } from "../config/upstash.js";
 import Subscription from "../models/subscription.model.js"
 
@@ -10,16 +10,19 @@ export const createSubscription = async (req, res, next) => {
       user: req.user._id,
     });
 
-    // const { workflowRunId } = await workflowClient.trigger({
-    //   url: `${SERVER_URL}/api/v1/workflows/subscription/reminder`,
-    //   body: { subscriptionId: subscription.id, },
-    //   headers: {
-    //     'content-type': 'application/json'
-    //   },
-    //   retries: 0
-    // })
-    // res.status(201).json({ success: true, data: { subscription, workflowRunId } })
-    res.status(201).json({ success: true, data: subscription })
+    if (NODE_ENV === 'production') {
+      const { workflowRunId } = await workflowClient.trigger({
+        url: `${SERVER_URL}/api/v1/workflows/subscription/reminder`,
+        body: { subscriptionId: subscription.id, },
+        headers: {
+          'content-type': 'application/json'
+        },
+        retries: 0
+      })
+      res.status(201).json({ success: true, data: { subscription, workflowRunId } })
+    } else {
+      res.status(201).json({ success: true, data: subscription })
+    }
   } catch (error) {
     next(error)
   }
